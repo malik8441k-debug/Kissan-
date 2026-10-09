@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>किसान मार्गदर्शक • Kisan Margdarshak (Pilot)</title>
+  <meta name="description" content="Mobile-first farmer guidance prototype for India. Simple, accessible, multilingual guidance for pilot district Nashik.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1e5c26">
+</head>
+<body>
+
+  <!-- =========================================================================
+       TOP STAKEHOLDER TOOLBAR (Device Preview Toggle & Demo Disclosures)
+       ========================================================================= -->
+  <header class="preview-toolbar" role="region" aria-label="Prototype Controls">
+    <div class="toolbar-left">
+      <span class="toolbar-title">🌾 Kisan Margdarshak (Prototype)</span>
+      <span class="badge-demo" id="toolbar-demo-tag">⚠️ Demo Data • 10 Oct 2026</span>
+    </div>
+    <div class="toolbar-right">
+      <button class="view-mode-btn active" id="btn-mode-mobile" title="Switch to Mobile Frame view">
+        📱 Mobile View
+      </button>
+      <button class="view-mode-btn" id="btn-mode-fullscreen" title="Switch to Full Screen Responsive view">
+        🖥️ Responsive View
+      </button>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       DEVICE CONTAINER / MOBILE APPLICATION SHELL
+       ========================================================================= -->
+  <div class="device-container" id="app-device">
+
+    <!-- Sticky App Header -->
+    <header class="app-header">
+      <div class="header-top">
+        <div class="brand-wrapper" id="brand-home-btn" role="button" tabindex="0" title="Go to Home Screen">
+          <div class="brand-icon" aria-hidden="true">🌱</div>
+          <div class="brand-text">
+            <h1 id="app-title-txt">किसान मार्गदर्शक</h1>
+            <p id="app-sub-txt">सरल किसान मार्गदर्शन • पायलट संस्करण</p>
+          </div>
+        </div>
+        <div class="header-controls">
+          <button class="lang-btn" id="open-lang-modal-btn" aria-label="Change Language">
+            🌐 <span id="current-lang-label">हिंदी</span>
+          </button>
+        </div>
+      </div>
+      <div class="header-badges">
+        <span class="badge-pilot" id="pilot-badge-txt">📍 पायलट: नासिक जिला, महाराष्ट्र</span>
+        <span class="badge-demo">⚠️ नमूना डेटा</span>
+      </div>
+    </header>
+
+    <!-- Main Content Area with 5 Functional Screens -->
+    <main class="app-content" id="main-content">
+
+      <!-- =====================================================================
+           SCREEN 0: HOME SCREEN (OVERVIEW TILES)
+           ===================================================================== -->
+      <section class="screen active" id="screen-home" aria-labelledby="home-hero-greeting">
+        <div class="farmer-hero">
+          <div class="hero-greeting" id="txt-welcome-farmer">राम-राम किसान भाई!</div>
+          <p class="hero-desc" id="txt-home-sub">नीचे दिए किसी भी बड़े बटन को दबाएं। बोलकर सुनने की सुविधा भी उपलब्ध है।</p>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="listen-btn" id="listen-home-btn" aria-label="Listen to Home greeting">
+              🔊 <span class="listen-btn-text">सुनें</span>
+            </button>
+            <button class="btn-voice" id="home-mic-btn" style="background:#fff; color:#1e5c26; border-color:#fff;">
+              🎤 <span id="txt-voice-test">बोलकर बताएं</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="notice-box warning">
+          <strong id="home-demo-notice-title">⚠️ प्रोटोटाइप सूचना:</strong>
+          <span id="home-demo-notice-body"> इस संस्करण में प्रदर्शित सभी भाव व सलाह नमूना डेटा (10 अक्टूबर 2026) पर आधारित हैं। वास्तविक कृषि निर्णय से पहले स्थानीय केवीके से परामर्श लें।</span>
+        </div>
+
+        <nav class="home-menu-grid" aria-label="Main Menu">
+          <!-- Card 1 -->
+          <div class="menu-card" data-target="screen-crops" role="button" tabindex="0">
+            <div class="menu-card-icon" aria-hidden="true">🌾</div>
+            <div class="menu-card-content">
+              <div class="menu-card-title" id="txt-menu-1-title">1. फसल चयन (क्या बोएं)</div>
+              <div class="menu-card-desc" id="txt-menu-1-desc">जमीन, मौसम और पानी के अनुसार उपयुक्त फसलें व जोखिम।</div>
+            </div>
+            <div class="menu-card-arrow">→</div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="menu-card" data-target="screen-budget" role="button" tabindex="0">
+            <div class="menu-card-icon" aria-hidden="true">💰</div>
+            <div class="menu-card-content">
+              <div class="menu-card-title" id="txt-menu-2-title">2. फसल खर्च और मुनाफा</div>
+              <div class="menu-card-desc" id="txt-menu-2-desc">लागत, संभावित बिक्री और 3 अलग-अलग परिदृश्य देखें।</div>
+            </div>
+            <div class="menu-card-arrow">→</div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="menu-card" data-target="screen-mandi" role="button" tabindex="0">
+            <div class="menu-card-icon" aria-hidden="true">⚖️</div>
+            <div class="menu-card-content">
+              <div class="menu-card-title" id="txt-menu-3-title">3. मंडी भाव और बिक्री</div>
+              <div class="menu-card-desc" id="txt-menu-3-desc">नजदीकी मंडियां, किराया काटने के बाद शुद्ध बचत की तुलना।</div>
+            </div>
+            <div class="menu-card-arrow">→</div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="menu-card" data-target="screen-protect" role="button" tabindex="0">
+            <div class="menu-card-icon" aria-hidden="true">🛡️</div>
+            <div class="menu-card-content">
+              <div class="menu-card-title" id="txt-menu-4-title">4. फसल सुरक्षा और स्वास्थ्य</div>
+              <div class="menu-card-desc" id="txt-menu-4-desc">रोकथाम चेकलिस्ट, लक्षण पहचान और सुरक्षित उपाय।</div>
+            </div>
+            <div class="menu-card-arrow">→</div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="menu-card" data-target="screen-diary" role="button" tabindex="0">
+            <div class="menu-card-icon" aria-hidden="true">📖</div>
+            <div class="menu-card-content">
+              <div class="menu-card-title" id="txt-menu-5-title">5. किसान डायरी (बहीखाता)</div>
+              <div class="menu-card-desc" id="txt-menu-5-desc">अपनी वास्तविक लागत, उपज और मुनाफे का पक्का हिसाब रखें।</div>
+            </div>
+            <div class="menu-card-arrow">→</div>
+          </div>
+        </nav>
+      </section>
+
+      <!-- =====================================================================
+           SCREEN 1: CHOOSE WHAT TO GROW
+           ===================================================================== -->
+      <section class="screen" id="screen-crops" aria-labelledby="crops-title">
+        <div class="screen-header">
+          <div class="screen-header-flex">
+            <div>
+              <h2 class="screen-title" id="crops-title">फसल चयन (क्या बोएं)</h2>
+              <p class="screen-subtitle" id="crops-subtitle">अपने खेत की जानकारी भरें और उपयुक्त नमूना फसलें देखें।</p>
+            </div>
+            <button class="listen-btn" id="listen-crops-btn" aria-label="Listen to instructions">
+              🔊 <span class="listen-btn-text">सुनें</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <!-- District selection -->
+          <div class="form-group">
+            <label class="form-label" id="lbl-crop-district">जिला (पायलट क्षेत्र)</label>
+            <input type="text" class="form-input" id="crop-district-input" value="नासिक जिला, महाराष्ट्र (Nashik)" readonly>
+          </div>
+
+          <!-- Land Area -->
+          <div class="form-group">
+            <label class="form-label" id="lbl-crop-area">खेत का रकबा (एकड़)</label>
+            <div class="stepper-container">
+              <button type="button" class="stepper-btn" id="step-area-dec" aria-label="Decrease acres">−</button>
+              <div class="stepper-value" id="crop-area-display">2.0 एकड़</div>
+              <button type="button" class="stepper-btn" id="step-area-inc" aria-label="Increase acres">+</button>
+            </div>
+            <div class="choice-grid cols-3" style="margin-top: 8px;">
+              <button type="button" class="chip-btn quick-area" data-acres="1">1 एकड़</button>
+              <button type="button" class="chip-btn active quick-area" data-acres="2">2 एकड़</button>
+              <button type="button" class="chip-btn quick-area" data-acres="5">5 एकड़</button>
+            </div>
+          </div>
+
+          <!-- Season -->
+          <div class="form-group">
+            <label class="form-label" id="lbl-crop-season">फसल का मौसम (ऋतु)</label>
+            <div class="choice-grid cols-3" id="season-choice-grid">
+              <button type="button" class="chip-btn active" data-val="kharif">
+                <span class="chip-icon">🌧️</span>
+                <span id="opt-kharif">खरीफ (बरसात)</span>
+              </button>
+              <button type="button" class="chip-btn" data-val="rabi">
+                <span class="chip-icon">❄️</span>
+                <span id="opt-rabi">रबी (सर्दी)</span>
+              </button>
+              <button type="button" class="chip-btn" data-val="zaid">
+                <span class="chip-icon">☀️</span>
+                <span id="opt-zaid">जायद (गर्मी)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Soil Type -->
+          <div class="form-group">
+            <label class="form-label" id="lbl-crop-soil">मिट्टी का प्रकार</label>
+            <div class="choice-grid" id="soil-choice-grid">
+              <button type="button" class="chip-btn active" data-val="black">
+                <span class="chip-icon">🟤</span>
+                <span id="opt-soil-black">काली मिट्टी</span>
+              </button>
+              <button type="button" class="chip-btn" data-val="loamy">
+                <span class="chip-icon">🌾</span>
+                <span id="opt-soil-loam">दोमट मिट्टी</span>
+              </button>
+              <button type="button" class="chip-btn" data-val="sandy_loam">
+                <span class="chip-icon">🏖️</span>
+                <span id="opt-soil-sandy">बलुई मिट्टी</span>
+              </button>
+              <button type="button" class="chip-btn" data-val="clayey">
+                <span class="chip-icon">🧱</span>
+                <span id="opt-soil-clay">चिकनी मिट्टी</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Soil Testing -->
+          <div class="form-group">
+            <label class="form-label" id="lbl-crop-soiltest">क्या मिट्टी की जांच कराई है?</label>
+            <div class="choice-grid" id="soiltest-choice-grid">
+              <button type="button" class="chip-btn" data-val="yes">
+                <span class="chip-icon">📋</span>
+                <span id="opt-soiltest-yes">हाँ, जांच कराई है</span>
+              </button>
+              <button type="button" class="chip-btn active" data-val="no">
+                <span class="chip-icon">❌</span>
+                <span id="opt-soiltest-no">अभी तक नहीं कराई</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Water Availability -->
+          <div class="form-group">
+            <label class="form-label" id="lbl-crop-water">पानी की सुविधा</label>
+            <div class="choice-grid cols-3" id="water-choice-grid">
+              <button type="button" class="chip-btn" data-val="high">
+                <span class="chip-icon">🌊</span>
+                <span id="opt-water-canal">नहर / भरपूर</span>
+              </button>
+              <button type="button" class="chip-btn active" data-val="moderate">
+                <span class="chip-icon">💧</span>
+                <span id="opt-water-tube">ट्यूबवेल</span>
+              </button>
+              <button type="button" class="chip-btn" data-val="rainfed">
+                <span class="chip-icon">🌧️</span>
+                <span id="opt-water-rain">केवल बारिश</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Action buttons with prototype microphone -->
+          <div style="display: flex; gap: 10px;">
+            <button type="button" class="btn-voice" id="crop-voice-btn" title="Speak crop preferences">
+              🎤 <span id="txt-crop-voice">बोलकर बताएं</span>
+            </button>
+            <button type="button" class="btn-primary" id="btn-filter-crops">
+              🔍 <span id="txt-find-crops">उपयुक्त फसलें देखें</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Crop Results Container -->
+        <div id="crop-results-section">
+          <div class="card-header" style="margin-top: 10px;">
+            <h3 class="card-title" id="txt-suitable-crops-hdr">उपयुक्त फसलें (नमूना मिलान)</h3>
+            <span class="badge-demo">Demo Matching</span>
+          </div>
+          <div id="crop-results-list">
+            <!-- Dynamically populated crop cards -->
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           SCREEN 2: CROP BUDGET & POSSIBLE PROFIT
+           ===================================================================== -->
+      <section class="screen" id="screen-budget" aria-labelledby="budget-title">
+        <div class="screen-header">
+          <div class="screen-header-flex">
+            <div>
+              <h2 class="screen-title" id="budget-title">फसल खर्च और अनुमानित मुनाफा</h2>
+              <p class="screen-subtitle" id="budget-subtitle">अपने अनुमानित खर्च भरें और 3 अलग-अलग स्थितियां समझें।</p>
+            </div>
+            <button class="listen-btn" id="listen-budget-btn" aria-label="Listen to budget guide">
+              🔊 <span class="listen-btn-text">सुनें</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <!-- Crop Selector -->
+          <div class="form-group">
+            <label class="form-label" id="lbl-budget-crop">फसल चुनें</label>
+            <select class="form-select" id="budget-crop-select" aria-label="Select Crop">
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+
+          <!-- Area -->
+          <div class="form-group">
+            <label class="form-label" id="lbl-budget-area">खेत का रकबा (एकड़)</label>
+            <div class="stepper-container">
+              <button type="button" class="stepper-btn" id="budget-area-dec">−</button>
+              <div class="stepper-value" id="budget-area-display">2.0 एकड़</div>
+              <button type="button" class="stepper-btn" id="budget-area-inc">+</button>
+            </div>
+          </div>
+
+          <!-- Itemized Costs Header -->
+          <h3 class="card-title" style="margin: 14px 0 10px 0;" id="txt-costs-hdr">अनुमानित लागत (कुल ₹)</h3>
+
+          <div class="form-group">
+            <label class="form-label" id="lbl-cost-seed">बीज / पौध (₹)</label>
+            <input type="number" class="form-input budget-cost-input" id="cost-seed" value="5600" min="0" step="100">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" id="lbl-cost-fert">खाद व उर्वरक (₹)</label>
+            <input type="number" class="form-input budget-cost-input" id="cost-fert" value="5200" min="0" step="100">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" id="lbl-cost-labor">मजदूरी (बुवाई, निराई, कटाई) (₹)</label>
+            <input type="number" class="form-input budget-cost-input" id="cost-labor" value="8400" min="0" step="100">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" id="lbl-cost-irrig">सिंचाई व डीजल/बिजली (₹)</label>
+            <input type="number" class="form-input budget-cost-input" id="cost-irrig" value="1800" min="0" step="100">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" id="lbl-cost-protect">स्प्रे व कीटनाशक (₹)</label>
+            <input type="number" class="form-input budget-cost-input" id="cost-protect" value="3600" min="0" step="100">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" id="lbl-cost-mach">ट्रैक्टर व जुताई (₹)</label>
+            <input type="number" class="form-input budget-cost-input" id="cost-mach" value="6400" min="0" step="100">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" id="lbl-cost-transp">ढुलाई व लोडिंग (₹)</label>
+            <input type="number" class="form-input budget-cost-input" id="cost-transp" value="2200" min="0" step="100">
+          </div>
+
+          <button type="button" class="btn-primary" id="btn-calc-budget" style="margin-top: 10px;">
+            📊 <span id="txt-calc-budget-btn">मुनाफे का अनुमान लगाएं</span>
+          </button>
+        </div>
+
+        <!-- Total Cost Banner -->
+        <div class="budget-summary-banner">
+          <span style="font-size: 1rem; color: var(--color-text-secondary);" id="lbl-total-cost">कुल अनुमानित निवेश:</span>
+          <div class="budget-total-num" id="budget-total-cost-num">₹ 33,200</div>
+          <span class="badge-demo" style="margin-top: 4px;">⚠️ डेमो अनुमान • 10 Oct 2026</span>
+        </div>
+
+        <!-- 3 Scenarios -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title" id="txt-scenarios-hdr">3 नमूना परिदृश्य (मुनाफे की कोई गारंटी नहीं)</h3>
+          </div>
+
+          <div class="scenarios-container" id="scenarios-list">
+            <!-- Dynamically populated low, typical, high scenario cards -->
+          </div>
+
+          <!-- Trust Disclaimer Notice -->
+          <div class="notice-box warning" style="margin-top: 14px;">
+            <strong id="budget-disc-title">⚠️ जरूरी सूचना:</strong>
+            <span id="budget-disc-body"> हम कभी मुनाफे का वादा नहीं करते। सूखा, कीट प्रकोप या मंडी में अचानक मंदी से वास्तविक परिणाम बदल सकते हैं। यह केवल योजना बनाने में मदद के लिए है।</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           SCREEN 3: MARKET PRICES & SELLING
+           ===================================================================== -->
+      <section class="screen" id="screen-mandi" aria-labelledby="mandi-title">
+        <div class="screen-header">
+          <div class="screen-header-flex">
+            <div>
+              <h2 class="screen-title" id="mandi-title">मंडी भाव और बिक्री की तुलना</h2>
+              <p class="screen-subtitle" id="mandi-subtitle">किराया, सेस और कटौती के बाद हाथ में आने वाली शुद्ध रकम की तुलना करें।</p>
+            </div>
+            <button class="listen-btn" id="listen-mandi-btn" aria-label="Listen to market guidance">
+              🔊 <span class="listen-btn-text">सुनें</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="form-group">
+            <label class="form-label" id="lbl-mandi-crop-select">तुलना के लिए फसल चुनें:</label>
+            <select class="form-select" id="mandi-crop-select">
+              <option value="onion">प्याज (कांदा / Onion)</option>
+              <option value="soybean">सोयाबीन (Soybean)</option>
+              <option value="tomato">टमाटर (Tomato)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" id="lbl-mandi-qty">बेचने योग्य अनुमानित माल (क्विंटल):</label>
+            <div class="stepper-container">
+              <button type="button" class="stepper-btn" id="mandi-qty-dec">−</button>
+              <div class="stepper-value" id="mandi-qty-display">50 क्विंटल</div>
+              <button type="button" class="stepper-btn" id="mandi-qty-inc">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mandi Rates List -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title" id="txt-mandi-table-title">आसपास की कृषि उपज मंडियां (नमूना डेटा)</h3>
+            <span class="badge-demo">Demo Data</span>
+          </div>
+
+          <div class="notice-box" style="margin-bottom: 12px;">
+            <strong id="mandi-insight-title">💡 जरूरी सीख:</strong>
+            <span id="mandi-insight-body"> दूर की मंडी में भाव अधिक होने पर भी, भारी गाड़ी भाड़े के कारण हाथ में कम पैसा बच सकता है!</span>
+          </div>
+
+          <div id="mandi-cards-list">
+            <!-- Dynamically populated Mandi comparisons -->
+          </div>
+        </div>
+
+        <!-- Sell Now vs Wait Section -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title" id="txt-sellnow-wait-hdr">अभी बेचें या रोककर बेचें? (नमूना परिदृश्य)</h3>
+            <span class="badge-demo">Simulated</span>
+          </div>
+
+          <div id="sellnow-wait-content">
+            <!-- Dynamically populated from demoData.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           SCREEN 4: CROP PROTECTION & HEALTH
+           ===================================================================== -->
+      <section class="screen" id="screen-protect" aria-labelledby="protect-title">
+        <div class="screen-header">
+          <div class="screen-header-flex">
+            <div>
+              <h2 class="screen-title" id="protect-title">फसल सुरक्षा और स्वास्थ्य</h2>
+              <p class="screen-subtitle" id="protect-subtitle">रोकथाम चेकलिस्ट, लक्षण पहचान और सुरक्षित उपाय।</p>
+            </div>
+            <button class="listen-btn" id="listen-protect-btn" aria-label="Listen to protection guide">
+              🔊 <span class="listen-btn-text">सुनें</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Season-Wise Prevention Checklist -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title" id="txt-checklist-hdr">मौसम अनुसार रोकथाम चेकलिस्ट</h3>
+          </div>
+          <div id="checklist-container">
+            <!-- Populated from demoData.js -->
+          </div>
+        </div>
+
+        <!-- Problem / Symptom Checker -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title" id="txt-symptom-hdr">समस्या बताएं या लक्षण चुनें</h3>
+          </div>
+
+          <p style="font-size: 0.95rem; margin-bottom: 10px;" id="txt-select-symptom-prompt">अपनी फसल पर दिखाई देने वाला लक्षण चुनें:</p>
+
+          <div id="symptoms-list">
+            <!-- Populated dynamically -->
+          </div>
+
+          <!-- Photo Upload Prototype Control -->
+          <div class="form-group" style="margin-top: 14px;">
+            <label class="form-label" id="lbl-photo-upload">वैकल्पिक: फसल का फोटो खींचें या अपलोड करें</label>
+            <div class="photo-upload-container" id="photo-upload-box" role="button" tabindex="0">
+              <div style="font-size: 2rem;">📷</div>
+              <div style="font-weight: 700; color: var(--color-primary); margin-top: 4px;" id="txt-tap-camera">कैमरा खोलें या फोटो चुनें</div>
+              <div style="font-size: 0.8rem; color: var(--color-text-muted);">Prototype visual inspection</div>
+              <input type="file" id="crop-photo-input" accept="image/*" style="display: none;">
+              <img id="photo-preview-img" class="photo-preview" alt="Preview of crop symptom">
+            </div>
+          </div>
+
+          <button type="button" class="btn-primary" id="btn-diagnose-symptom">
+            🔬 <span id="txt-diagnose-btn">लक्षणों का विश्लेषण करें</span>
+          </button>
+
+          <!-- Diagnosis Result Box -->
+          <div id="diagnosis-result-area" style="display: none; margin-top: 16px;">
+            <div class="card-header">
+              <h4 class="card-title" id="txt-diag-hdr">प्रारंभिक अवलोकन (नमूना रिपोर्ट)</h4>
+              <span class="badge-demo">Demo</span>
+            </div>
+            <div class="notice-box warning" id="diag-observation-text">
+              <!-- Populated dynamically -->
+            </div>
+
+            <!-- Mandatory Official KVK Recommendation -->
+            <div class="notice-box" style="border-left-color: #0288d1; background: #e1f5fe;">
+              <strong>🏛️ <span id="txt-kvk-hdr">आधिकारिक सलाह:</span></strong>
+              <p style="margin-top: 4px;" id="txt-kvk-body">
+                कोई भी दवा खरीदने से पहले अपने नजदीकी कृषि विज्ञान केंद्र (KVK) में पौधे का नमूना दिखाएं या किसान कॉल सेंटर (1800-180-1551) से निशुल्क सलाह लें।
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Strict Pesticide Safety Notice (REQUIRED) -->
+        <div class="notice-box danger">
+          <strong>⛔ <span id="txt-pest-safety-hdr">सख्त सुरक्षा चेतावनी:</span></strong>
+          <p style="margin-top: 4px;" id="txt-pest-safety-body">
+            हम किसी अप्रमाणित कीटनाशक ब्रांड या रासायनिक खुराक की सलाह नहीं देते। कीटनाशक का प्रयोग केवल केंद्रीय कीटनाशक बोर्ड (CIB&RC) के अधिकृत लेबल और कृषि विशेषज्ञ की सलाह पर ही करें।
+          </p>
+        </div>
+
+        <!-- Comparison Table / Cards of 3 Approaches -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title" id="txt-compare-methods-hdr">फसल सुरक्षा विधियों की तुलना</h3>
+          </div>
+          <div id="methods-compare-container">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           SCREEN 5: FARM RECORDS (DIARY / BAHIKHATA)
+           ===================================================================== -->
+      <section class="screen" id="screen-diary" aria-labelledby="diary-title">
+        <div class="screen-header">
+          <div class="screen-header-flex">
+            <div>
+              <h2 class="screen-title" id="diary-title">किसान डायरी (बहीखाता)</h2>
+              <p class="screen-subtitle" id="diary-subtitle">अपनी लागत, पैदावार और बिक्री का पूरा हिसाब अपने फोन में सुरक्षित रखें।</p>
+            </div>
+            <button class="listen-btn" id="listen-diary-btn" aria-label="Listen to diary guide">
+              🔊 <span class="listen-btn-text">सुनें</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Action Button to Add New Record -->
+        <div style="display: flex; gap: 10px; margin-bottom: 16px;">
+          <button type="button" class="btn-primary" id="btn-open-add-record">
+            ✍️ <span id="txt-new-record-btn">+ नया फसल खाता जोड़ें</span>
+          </button>
+          <button type="button" class="btn-voice" id="diary-mic-btn" title="Speak farm record">
+            🎤 <span id="txt-diary-mic">बोलकर जोड़ें</span>
+          </button>
+        </div>
+
+        <!-- Financial Summary Banner -->
+        <div class="card" style="background: var(--color-bg-muted);">
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; text-align: center;">
+            <div>
+              <span class="metric-label" id="lbl-sum-expense">कुल खर्च</span>
+              <strong style="color: var(--color-danger); font-size: 1.1rem;" id="diary-sum-expense">₹ 0</strong>
+            </div>
+            <div>
+              <span class="metric-label" id="lbl-sum-sales">कुल बिक्री</span>
+              <strong style="color: var(--color-primary); font-size: 1.1rem;" id="diary-sum-sales">₹ 0</strong>
+            </div>
+            <div>
+              <span class="metric-label" id="lbl-sum-net">शुद्ध नफा</span>
+              <strong style="color: var(--color-success); font-size: 1.1rem;" id="diary-sum-net">₹ 0</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Records List Container -->
+        <div class="card-header">
+          <h3 class="card-title" id="txt-saved-records-hdr">दर्ज खाते (Local Records)</h3>
+          <button type="button" class="btn-action-small" id="btn-reset-sample-records" title="Restore sample entries">
+            🔄 नमूना रिकॉर्ड रीसेट
+          </button>
+        </div>
+
+        <div id="diary-records-list">
+          <!-- Dynamically populated from localStorage -->
+        </div>
+      </section>
+
+    </main>
+
+    <!-- =========================================================================
+         BOTTOM NAVIGATION BAR (LARGE TAP TARGETS, ICON + TEXT)
+         ========================================================================= -->
+    <nav class="bottom-nav" aria-label="Bottom Navigation">
+      <button class="nav-item active" data-target="screen-home" aria-label="Home Screen">
+        <span class="nav-icon" aria-hidden="true">🏠</span>
+        <span id="nav-lbl-home">होम</span>
+      </button>
+      <button class="nav-item" data-target="screen-crops" aria-label="Choose Crop">
+        <span class="nav-icon" aria-hidden="true">🌾</span>
+        <span id="nav-lbl-crops">1. फसल</span>
+      </button>
+      <button class="nav-item" data-target="screen-budget" aria-label="Crop Budget">
+        <span class="nav-icon" aria-hidden="true">💰</span>
+        <span id="nav-lbl-budget">2. बजट</span>
+      </button>
+      <button class="nav-item" data-target="screen-mandi" aria-label="Mandi Prices">
+        <span class="nav-icon" aria-hidden="true">⚖️</span>
+        <span id="nav-lbl-mandi">3. मंडी</span>
+      </button>
+      <button class="nav-item" data-target="screen-protect" aria-label="Crop Protection">
+        <span class="nav-icon" aria-hidden="true">🛡️</span>
+        <span id="nav-lbl-protect">4. सुरक्षा</span>
+      </button>
+      <button class="nav-item" data-target="screen-diary" aria-label="Farm Records Diary">
+        <span class="nav-icon" aria-hidden="true">📖</span>
+        <span id="nav-lbl-diary">5. डायरी</span>
+      </button>
+    </nav>
+
+    <!-- Footer Disclosures -->
+    <footer class="app-footer">
+      <p id="app-footer-source">नासिक पायलट का नमूना डेटा • वास्तविक मंडी व मौसम सर्वर से जुड़ाव प्रक्रियाधीन है।</p>
+      <p style="margin-top: 4px; font-weight: 600;">Kisan Margdarshak Mobile Prototype v1.0 • Offline Local Storage Active</p>
+    </footer>
+
+  </div> <!-- End device-container -->
+
+  <!-- =========================================================================
+       MODAL 1: REGIONAL LANGUAGE SELECTION
+       ========================================================================= -->
+  <div class="modal-overlay" id="modal-language" role="dialog" aria-modal="true" aria-labelledby="lang-modal-title">
+    <div class="modal-content">
+      <button class="modal-close-btn" id="close-lang-modal-btn" aria-label="Close">✕</button>
+      <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 6px;" id="lang-modal-title">भाषा चुनें / Choose Language</h3>
+      <p style="font-size: 0.9rem; color: var(--color-text-secondary); margin-bottom: 16px;">
+        Select your preferred regional language. All advice and buttons will adapt immediately.
+      </p>
+
+      <button class="lang-option-btn" data-lang="hi">
+        <div>
+          <strong style="font-size: 1.25rem;">हिंदी (Hindi)</strong>
+          <div style="font-size: 0.85rem; color: var(--color-text-muted);">उत्तर व मध्य भारत</div>
+        </div>
+        <span style="font-size: 1.5rem;">🇮🇳</span>
+      </button>
+
+      <button class="lang-option-btn" data-lang="mr">
+        <div>
+          <strong style="font-size: 1.25rem;">मराठी (Marathi)</strong>
+          <div style="font-size: 0.85rem; color: var(--color-text-muted);">नाशिक व संपूर्ण महाराष्ट्र</div>
+        </div>
+        <span style="font-size: 1.5rem;">🚩</span>
+      </button>
+
+      <button class="lang-option-btn" data-lang="en">
+        <div>
+          <strong style="font-size: 1.25rem;">English</strong>
+          <div style="font-size: 0.85rem; color: var(--color-text-muted);">Standard Demo English</div>
+        </div>
+        <span style="font-size: 1.5rem;">🌐</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 2: VOICE PROTOTYPE INPUT / FALLBACK
+       ========================================================================= -->
+  <div class="modal-overlay" id="modal-voice" role="dialog" aria-modal="true" aria-labelledby="voice-modal-title">
+    <div class="modal-content" style="text-align: center;">
+      <button class="modal-close-btn" id="close-voice-modal-btn" aria-label="Close">✕</button>
+      <div style="font-size: 3rem; margin-bottom: 8px;">🎤</div>
+      <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 8px;" id="voice-modal-title">आवाज द्वारा इनपुट (प्रोटोटाइप)</h3>
+      <p style="font-size: 0.9rem; color: var(--color-text-secondary); margin-bottom: 16px;" id="voice-modal-desc">
+        आवाज पहचान अभी प्रोटोटाइप मोड में है। यदि आवाज न सुनाई दे, तो नीचे दिए विकल्पों को सीधे दबाएं।
+      </p>
+
+      <div class="notice-box warning" id="voice-status-indicator" style="text-align: left;">
+        <span id="voice-status-text">माइक सक्रिय है... अपनी बात बोलें।</span>
+      </div>
+
+      <!-- Fallback quick text input -->
+      <div class="form-group" style="text-align: left; margin-top: 14px;">
+        <label class="form-label" style="font-size: 0.9rem;">वैकल्पिक: यहाँ लिखकर या चुनकर बताएं:</label>
+        <input type="text" class="form-input" id="voice-manual-fallback-input" placeholder="उदा: 2 एकड़ सोयाबीन खरीफ">
+      </div>
+
+      <div style="display: flex; gap: 8px;">
+        <button type="button" class="btn-primary" id="btn-submit-voice-fallback" style="flex: 1;">
+          सहेजें / लागू करें
+        </button>
+        <button type="button" class="btn-secondary" id="btn-dismiss-voice-modal" style="flex: 1;">
+          बंद करें
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 3: FARM RECORD ENTRY / EDIT FORM
+       ========================================================================= -->
+  <div class="modal-overlay" id="modal-record-form" role="dialog" aria-modal="true" aria-labelledby="record-form-title">
+    <div class="modal-content">
+      <button class="modal-close-btn" id="close-record-form-btn" aria-label="Close">✕</button>
+      <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 12px;" id="record-form-title">+ नया फसल खाता</h3>
+
+      <input type="hidden" id="edit-record-id">
+
+      <div class="form-group">
+        <label class="form-label" id="lbl-rec-crop">फसल का नाम</label>
+        <select class="form-select" id="rec-crop-select">
+          <option value="soybean">सोयाबीन (Soybean)</option>
+          <option value="onion">प्याज (Onion / कांदा)</option>
+          <option value="chickpea">चना (हरभरा / Chickpea)</option>
+          <option value="tomato">टमाटर (Tomato)</option>
+          <option value="cotton">कपास (कापूस / Cotton)</option>
+          <option value="other">अन्य फसल (Other)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" id="lbl-rec-season">मौसम / वर्ष</label>
+        <input type="text" class="form-input" id="rec-season-input" placeholder="उदा: खरीफ 2026">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" id="lbl-rec-area">रकबा (एकड़)</label>
+        <input type="number" class="form-input" id="rec-area-input" value="2.0" step="0.5" min="0.1">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" id="lbl-rec-harvest">कुल पैदावार (क्विंटल)</label>
+        <input type="number" class="form-input" id="rec-harvest-input" placeholder="क्विंटल में दर्ज करें" min="0" step="0.5">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" id="lbl-rec-salerate">बिक्री भाव (₹ / क्विंटल)</label>
+        <input type="number" class="form-input" id="rec-salerate-input" placeholder="₹ प्रति क्विंटल" min="0" step="50">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" id="lbl-rec-buyer">खरीदार / मंडी का नाम</label>
+        <input type="text" class="form-input" id="rec-buyer-input" placeholder="उदा: लासलगांव मंडी / व्यापारी पाटिल">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" id="lbl-rec-date">बिक्री की तारीख</label>
+        <input type="date" class="form-input" id="rec-date-input">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" id="lbl-rec-expenses">अनुमानित कुल खर्च (₹)</label>
+        <input type="number" class="form-input" id="rec-total-expense-input" placeholder="कुल लागत दर्ज करें" min="0" step="500">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" id="lbl-rec-notes">अन्य टिप्पणी (बीज, मौसम, खाद आदि)</label>
+        <textarea class="form-input" id="rec-notes-input" rows="2" placeholder="कोई खास अनुभव या समस्या..."></textarea>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-top: 14px;">
+        <button type="button" class="btn-primary" id="btn-save-record-modal" style="flex: 2;">
+          💾 <span id="txt-save-rec-btn">खाता सुरक्षित करें</span>
+        </button>
+        <button type="button" class="btn-secondary" id="btn-cancel-record-modal" style="flex: 1;">
+          रद्द करें
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Toast Notification -->
+  <div id="global-toast" class="toast-msg" role="status" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="js/data/demoData.js"></script>
+  <script src="js/i18n/translations.js"></script>
+  <script src="js/services/speechService.js"></script>
+  <script src="js/services/storageService.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
